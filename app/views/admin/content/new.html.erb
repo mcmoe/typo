@@ -6,7 +6,7 @@
  <div class='separator'>
     <h3><%= _("Merge Articles") %></h4>
     <p class='help-block8'>Merge similar articles into one!</p>  
-    <%= _("Article ID")%> <%= text_field 'merge', 'with', {:style => 'width: 25%'} %>
+    <%= _("Article ID")%> <%= text_field 'merge', 'with', {:name => 'merge_with', :style => 'width: 25%'} %>
     <%= submit_tag "Merge", class: 'btn info' %>
   </div> 
 <% end %>
