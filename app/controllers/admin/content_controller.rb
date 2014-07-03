@@ -39,10 +39,10 @@ class Admin::ContentController < Admin::BaseController
 
   def merge
     @article1 = Article.find_by_id(params[:id])
-    @article2 = Article.find_by_id(params[:merge][:with])
+    @article2 = Article.find_by_id(params[:merge_with])
 
     if(@article1.nil? or @article2.nil?)
-      flash[:error] = _("Article #{params[:id]} or #{params[:merge][:with]} does not exist")
+      flash[:error] = _("Article #{params[:id]} or #{params[:merge_with]} does not exist")
     else 
       if(@article1.id != @article2.id)
         @article1.body = @article1.body + " " + @article2.body
@@ -50,7 +50,7 @@ class Admin::ContentController < Admin::BaseController
         @article1.save
         @article2.reload
         @article2.destroy
-        flash[:notice] = _("Article #{params[:id]} was successfully merged. #{params[:merge][:with]}")
+        flash[:notice] = _("Article #{params[:id]} was successfully merged. #{params[:merge_with]}")
       end
     end
     redirect_to :action => 'index'
