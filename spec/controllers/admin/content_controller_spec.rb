@@ -481,6 +481,20 @@ describe Admin::ContentController do
     it_should_behave_like 'destroy action'
     it_should_behave_like 'autosave action'
 
+    describe 'merge action' do
+
+      it 'should merge article' do
+        @article2 = Factory(:article)
+        post :merge, 'id' => @article.id, 'merge' => { 'with' => @article2.id}
+        assert_response :redirect, :action => 'index'
+
+        #assigns(:article).should_not be_nil
+        #assigns(:article).should be_valid
+        #response.should contain(/body/)
+        #response.should contain(/extended content/)
+      end
+    end
+
     describe 'edit action' do
 
       it 'should edit article' do

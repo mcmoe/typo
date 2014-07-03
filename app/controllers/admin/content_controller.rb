@@ -37,6 +37,25 @@ class Admin::ContentController < Admin::BaseController
     new_or_edit
   end
 
+  def merge
+    @article1 = Article.find_by_id(params[:id])
+    @article2 = Article.find_by_id(params[:merge][:with])
+
+    if(@article1.nil? or @article2.nil?)
+      flash[:error] = _("Article #{params[:id]} or #{params[:merge][:with]} does not exist")
+    else 
+      if(@article1.id != @article2.id)
+        @article1.body = @article1.body + " " + @article2.body
+        @article1.comments << @article2.comments
+        @article1.save
+        @article2.reload
+        @article2.destroy
+        flash[:notice] = _("Article #{params[:id]} was successfully merged. #{params[:merge][:with]}")
+      end
+    end
+    redirect_to :action => 'index'
+  end
+
   def destroy
     @record = Article.find(params[:id])
 
@@ -189,6 +208,8 @@ class Admin::ContentController < Admin::BaseController
       flash[:notice] = _('Article was successfully created')
     when 'edit'
       flash[:notice] = _('Article was successfully updated.')
+    #when 'merge'
+     # flash[:notice] = _('Article was successfully merged.')
     else
       raise "I don't know how to tidy up action: #{params[:action]}"
     end
