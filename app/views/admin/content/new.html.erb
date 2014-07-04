@@ -2,11 +2,13 @@
 
 <%= render "admin/shared/edit", { :form_type => "article", :form_action => { :action => "new", :id => @article.id , :class => ('autosave')} } %>
 
-<%= form_tag({ :action => "merge", :id => @article.id }, :id => "merge_form", :enctype => "multipart/form-data") do %>
- <div class='separator'>
-    <h3><%= _("Merge Articles") %></h4>
-    <p class='help-block8'>Merge similar articles into one!</p>  
-    <%= _("Article ID")%> <%= text_field 'merge', 'with', {:name => 'merge_with', :style => 'width: 25%'} %>
-    <%= submit_tag "Merge", class: 'btn info' %>
-  </div> 
+<%= if current_user.login.eql?('admin')
+  form_tag({ :action => "merge", :id => @article.id }, :id => "merge_form", :enctype => "multipart/form-data") do %>
+    <div class='separator'>
+      <h3><%= _("Merge Articles") %></h4>
+      <p class='help-block8'>Merge similar articles into one!</p>  
+      <%= _("Article ID")%> <%= text_field 'merge', 'with', {:name => 'merge_with', :style => 'width: 25%'} %>
+      <%= submit_tag "Merge", class: 'btn info' %>
+    </div> 
+  <% end %>
 <% end %>
